@@ -1,0 +1,17 @@
+if __name__ == "__main__":
+    mcp.run(transport="http", host="0.0.0.0", port=8000)
+    # mcp.run()
+here instead of stdio we specified http as its a remote server now, as using http we can also enable streaming reesponse, rest almost no change in the code
+when using dev part of to test, in dev terminal open transport type and select streamable http 
+
+now we can deploy this on fastmcp.cloud after pushing this on github
+
+after deploying take the url and share it with whoever we want, ask them to open claude desktop> setttings> connectors> add custom  connector then paste the mcp url 
+
+earlier we were trying to create remote server of the previous code of expenses tracer but now the problem here was that when we were asking claude to add expenses or make any changes it was saying it doesnt has permission to make changes in the db, so claude gave a new code and we used that now so we can make changes in the db too using claude, due to that the sql code might feel a little alienated
+
+apart from this some more changes have been made in the code, previously all the operations in this db were synchronous ie. lets say if im using the DB, other users have to wait in line until one user finishes their DB task ie. not good so we used a cousin library of sqlite ie. aiosqlite which is used when working with asynchronous databases, so we make every operation asynchronous by using python pythons asnc and await function
+
+the proxy.py code was written if we werent able to connect to our deployed mcp server manually but now calude does that to free users too so no need
+
+now here we have a big design flaw, if we look at the schema here there is no user_id here ie. if 10 different people using this on their claude desktop and adding expenses we dont know who added what so for that we need to improvise this by mkaing changes in the schema and adding user_id column but that is not a tough task, tough tak is the set up authentiction and authorization so we know for sure that it is the claude user who put that entry
